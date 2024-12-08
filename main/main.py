@@ -50,21 +50,29 @@ def download_and_extract_files(download_token, files, download_dir):
         
         for file_info in files['files']:
             file_name = file_info['name']
-            if 'PARTINFO' in file_name and file_name.endswith('.dtz'):
+            if ('PARTINFO_AS_ALL_NET' in file_name or 'PARTINFO_AS_ALL_FULL' in file_name) and file_name.endswith('.dtz'):
+                # Determine the file type (NET or FULL)
+                file_type = 'NET' if 'PARTINFO_AS_ALL_NET' in file_name else 'FULL'
+                
+                # Create subdirectories for the file type
+                type_compressed_dir = os.path.join(compressed_dir, file_type)
+                type_decompressed_dir = os.path.join(decompressed_dir, file_type)
+
+                os.makedirs(type_compressed_dir, exist_ok=True)
+                os.makedirs(type_decompressed_dir, exist_ok=True)
+                
                 download_link = next(link['href'] for link in file_info['links'] if link['rel'] == 'download')
                 response = requests.get(download_link, headers=headers)
                 
                 if response.status_code == 200:
-                    compressed_file_path = os.path.join(compressed_dir, file_name)
-                    
-                    # Save the downloaded .dtz file in Compressed_Files folder
+                    # Save the downloaded .dtz file in the corresponding compressed folder
+                    compressed_file_path = os.path.join(type_compressed_dir, file_name)
                     with open(compressed_file_path, 'wb') as f:
                         f.write(response.content)
                     print(f'Saved: {file_name} to {compressed_file_path}')
                     
-                    # Decompress the .dtz file as if it were a gzip file
-                    decompressed_file_path = os.path.join(decompressed_dir, file_name.replace('.dtz', ''))
-
+                    # Decompress the .dtz file and save it in the corresponding decompressed folder
+                    decompressed_file_path = os.path.join(type_decompressed_dir, file_name.replace('.dtz', ''))
                     with gzip.open(compressed_file_path, 'rb') as f_in:
                         with open(decompressed_file_path, 'wb') as f_out:
                             shutil.copyfileobj(f_in, f_out)
@@ -82,10 +90,20 @@ if __name__ == '__main__':
     base_dir = '../Files'
 
     result = get_downloadable_price_file(download_api_url, download_token)
-    #print(result)
+
+    print(result)
     if result and 'files' in result and result['files']:
-        download_and_extract_files(download_token, result, base_dir)
+        # Filter the files for FULL and NET
+        full_and_net_files = [
+            file for file in result['files']
+            if 'PARTINFO_AS_ALL_NET' in file['name'] or 'PARTINFO_AS_ALL_FULL' in file['name']
+        ]
+        
+        if full_and_net_files:
+            download_and_extract_files(download_token, {'files': full_and_net_files}, base_dir)
+        else:
+            print("No FULL or NET price files found.")
     else:
-        print("No downloadable DPMORD files found.")
+        print("No downloadable files found.")
     # if bearer_token: 
     #     get_downloadable_price_file(download_api_url, bearer_token) 
