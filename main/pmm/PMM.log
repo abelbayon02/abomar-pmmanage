@@ -1,0 +1,343 @@
+2025-03-09 02:00:02,907 - INFO - Script execution started.
+2025-03-09 02:01:51,046 - INFO - File DLR2JD_09MAR2025_020144.DAT uploaded successfully.
+2025-03-09 02:01:51,046 - INFO - {'status_code': 204, 'filename': 'DLR2JD_09MAR2025_020144.DAT', 'message': 'File uploaded successfully'}
+2025-03-09 02:01:51,046 - INFO - Script execution ended successfully.
+2025-03-16 02:00:01,928 - INFO - Script execution started.
+2025-03-16 02:01:50,049 - INFO - File DLR2JD_16MAR2025_020144.DAT uploaded successfully.
+2025-03-16 02:01:50,049 - INFO - {'status_code': 204, 'filename': 'DLR2JD_16MAR2025_020144.DAT', 'message': 'File uploaded successfully'}
+2025-03-16 02:01:50,049 - INFO - Script execution ended successfully.
+2025-03-17 22:09:25,052 - INFO - Script execution started.
+2025-03-17 22:11:12,918 - INFO - File DLR2JD_17MAR2025_221105.DAT uploaded successfully.
+2025-03-17 22:11:12,918 - INFO - {'status_code': 204, 'filename': 'DLR2JD_17MAR2025_221105.DAT', 'message': 'File uploaded successfully'}
+2025-03-17 22:11:12,918 - INFO - Script execution ended successfully.
+2025-03-20 21:44:40,524 - INFO - Script execution started.
+2025-03-20 21:46:34,742 - INFO - File DLR2JD_20MAR2025_214627.DAT uploaded successfully.
+2025-03-20 21:46:34,743 - INFO - {'status_code': 204, 'filename': 'DLR2JD_20MAR2025_214627.DAT', 'message': 'File uploaded successfully'}
+2025-03-20 21:46:34,743 - INFO - Script execution ended successfully.
+2025-03-21 20:19:19,487 - INFO - Script execution started.
+2025-03-21 20:23:15,053 - INFO - Script execution started.
+2025-03-21 20:25:23,128 - INFO - File DLR2JD_21MAR2025_202512.DAT uploaded successfully.
+2025-03-21 20:25:23,129 - INFO - {'status_code': 204, 'filename': 'DLR2JD_21MAR2025_202512.DAT', 'message': 'File uploaded successfully'}
+2025-03-21 20:25:23,129 - INFO - Script execution ended successfully.
+2025-03-21 20:33:50,353 - INFO - Script execution started.
+2025-03-21 20:37:04,642 - INFO - File DLR2JD_21MAR2025_203652.DAT uploaded successfully.
+2025-03-21 20:37:04,642 - INFO - {'status_code': 204, 'filename': 'DLR2JD_21MAR2025_203652.DAT', 'message': 'File uploaded successfully'}
+2025-03-21 20:37:04,642 - INFO - Script execution ended successfully.
+2025-03-23 02:00:02,785 - INFO - Script execution started.
+2025-03-23 02:02:00,034 - INFO - File DLR2JD_23MAR2025_020152.DAT uploaded successfully.
+2025-03-23 02:02:00,034 - INFO - {'status_code': 204, 'filename': 'DLR2JD_23MAR2025_020152.DAT', 'message': 'File uploaded successfully'}
+2025-03-23 02:02:00,034 - INFO - Script execution ended successfully.
+2025-03-30 02:00:02,962 - INFO - Script execution started.
+2025-03-30 02:02:10,038 - INFO - File DLR2JD_30MAR2025_020155.DAT uploaded successfully.
+2025-03-30 02:02:10,038 - INFO - {'status_code': 204, 'filename': 'DLR2JD_30MAR2025_020155.DAT', 'message': 'File uploaded successfully'}
+2025-03-30 02:02:10,038 - INFO - Script execution ended successfully.
+2025-04-05 22:46:39,611 - INFO - Script execution started.
+2025-04-05 22:49:13,450 - INFO - File DLR2JD_05APR2025_224900.DAT uploaded successfully.
+2025-04-05 22:49:13,450 - INFO - {'status_code': 204, 'filename': 'DLR2JD_05APR2025_224900.DAT', 'message': 'File uploaded successfully'}
+2025-04-05 22:49:13,450 - INFO - Script execution ended successfully.
+2025-04-06 02:00:02,326 - INFO - Script execution started.
+2025-04-06 02:02:31,405 - INFO - File DLR2JD_06APR2025_020220.DAT uploaded successfully.
+2025-04-06 02:02:31,405 - INFO - {'status_code': 204, 'filename': 'DLR2JD_06APR2025_020220.DAT', 'message': 'File uploaded successfully'}
+2025-04-06 02:02:31,405 - INFO - Script execution ended successfully.
+2025-04-13 02:00:02,855 - INFO - Script execution started.
+2025-04-13 02:02:39,408 - INFO - File DLR2JD_13APR2025_020227.DAT uploaded successfully.
+2025-04-13 02:02:39,409 - INFO - {'status_code': 204, 'filename': 'DLR2JD_13APR2025_020227.DAT', 'message': 'File uploaded successfully'}
+2025-04-13 02:02:39,409 - INFO - Script execution ended successfully.
+2025-04-16 16:25:13,404 - INFO - Script execution started.
+2025-04-16 16:25:15,687 - INFO - Date Ranges: LastMonth(2025-03-01 to 2025-03-31), Last12(2024-03-01 to 2025-03-31), Prior12(2023-03-01 to 2024-02-29)
+2025-04-16 16:25:57,140 - INFO - Inv No Sales: No aged products among those on hand.
+2025-04-16 16:26:53,967 - INFO - Inv No Sales: No aged products among those on hand.
+2025-04-16 16:27:36,199 - INFO - Inv No Sales: No aged products among those on hand.
+2025-04-16 16:28:21,900 - INFO - Inv No Sales: No aged products among those on hand.
+2025-04-16 16:29:15,945 - INFO - Inv No Sales: No aged products among those on hand.
+2025-04-16 16:29:22,435 - INFO - File DLR2JD_16APR2025_162916.DAT uploaded successfully.
+2025-04-16 16:29:22,436 - INFO - {'status_code': 204, 'filename': 'DLR2JD_16APR2025_162916.DAT', 'message': 'File uploaded successfully'}
+2025-04-16 16:29:22,436 - INFO - Script execution ended successfully.
+2025-04-20 02:00:02,810 - INFO - Script execution started.
+2025-04-20 02:00:04,338 - INFO - Date Ranges: LastMonth(2025-03-01 to 2025-03-31), Last12(2024-03-01 to 2025-03-31), Prior12(2023-03-01 to 2024-02-29)
+2025-04-20 02:00:52,643 - INFO - Inv No Sales: No aged products among those on hand.
+2025-04-20 02:01:40,583 - INFO - Inv No Sales: No aged products among those on hand.
+2025-04-20 02:02:18,282 - INFO - Inv No Sales: No aged products among those on hand.
+2025-04-20 02:03:08,681 - INFO - Inv No Sales: No aged products among those on hand.
+2025-04-20 02:03:58,926 - INFO - Inv No Sales: No aged products among those on hand.
+2025-04-20 02:04:06,600 - INFO - File DLR2JD_20APR2025_020359.DAT uploaded successfully.
+2025-04-20 02:04:06,600 - INFO - {'status_code': 204, 'filename': 'DLR2JD_20APR2025_020359.DAT', 'message': 'File uploaded successfully'}
+2025-04-20 02:04:06,600 - INFO - Script execution ended successfully.
+2025-04-27 02:00:02,456 - INFO - Script execution started.
+2025-04-27 02:00:03,952 - INFO - Date Ranges: LastMonth(2025-03-01 to 2025-03-31), Last12(2024-03-01 to 2025-03-31), Prior12(2023-03-01 to 2024-02-29)
+2025-04-27 02:01:05,746 - INFO - Inv No Sales: No aged products among those on hand.
+2025-04-27 02:02:09,879 - INFO - Inv No Sales: No aged products among those on hand.
+2025-04-27 02:03:03,563 - INFO - Inv No Sales: No aged products among those on hand.
+2025-04-27 02:04:02,822 - INFO - Inv No Sales: No aged products among those on hand.
+2025-04-27 02:05:10,950 - INFO - Inv No Sales: No aged products among those on hand.
+2025-04-27 02:05:17,583 - INFO - File DLR2JD_27APR2025_020511.DAT uploaded successfully.
+2025-04-27 02:05:17,583 - INFO - {'status_code': 204, 'filename': 'DLR2JD_27APR2025_020511.DAT', 'message': 'File uploaded successfully'}
+2025-04-27 02:05:17,583 - INFO - Script execution ended successfully.
+2025-04-30 20:44:41,125 - INFO - Script execution started.
+2025-04-30 20:44:41,129 - INFO - PMM Main function started.
+2025-04-30 20:44:41,131 - INFO - Using default anchor month (last complete month): 2025-03-01 to 2025-03-31
+2025-04-30 20:44:44,000 - INFO - Derived Date Ranges: Last12(2024-03-01 to 2025-03-31), Prior12(2023-03-01 to 2024-02-29)
+2025-04-30 20:44:44,000 - INFO - Generated 13 month-ends for Last12, 12 for Prior12.
+2025-04-30 20:44:44,000 - INFO - Using historical reference date for snapshot values: 2025-03-31 23:59:59
+2025-04-30 20:46:17,754 - INFO - Inv No Sales: No aged products among those on hand.
+2025-04-30 20:48:11,160 - INFO - Inv No Sales: No aged products among those on hand.
+2025-04-30 20:49:28,232 - INFO - Inv No Sales: No aged products among those on hand.
+2025-04-30 20:51:15,110 - INFO - Inv No Sales: No aged products among those on hand.
+2025-04-30 20:53:19,606 - INFO - Inv No Sales: No aged products among those on hand.
+2025-04-30 20:53:28,614 - INFO - File DLR2JD_30APR2025_205319.DAT uploaded successfully.
+2025-04-30 20:53:28,614 - INFO - {'status_code': 204, 'filename': 'DLR2JD_30APR2025_205319.DAT', 'message': 'File uploaded successfully'}
+2025-04-30 20:53:28,614 - INFO - Script execution ended successfully.
+2025-05-04 02:00:02,475 - INFO - Script execution started.
+2025-05-04 02:00:02,480 - INFO - PMM Main function started.
+2025-05-04 02:00:02,482 - INFO - Using default anchor month (last complete month): 2025-04-01 to 2025-04-30
+2025-05-04 02:00:03,920 - INFO - Derived Date Ranges: Last12(2024-04-01 to 2025-04-30), Prior12(2023-04-01 to 2024-03-31)
+2025-05-04 02:00:03,920 - INFO - Generated 13 month-ends for Last12, 12 for Prior12.
+2025-05-04 02:00:03,920 - INFO - Using historical reference date for snapshot values: 2025-04-30 23:59:59
+2025-05-04 02:00:47,293 - INFO - Inv No Sales: No aged products among those on hand.
+2025-05-04 02:01:33,155 - INFO - Inv No Sales: No aged products among those on hand.
+2025-05-04 02:02:07,003 - INFO - Inv No Sales: No aged products among those on hand.
+2025-05-04 02:02:55,475 - INFO - Inv No Sales: No aged products among those on hand.
+2025-05-04 02:03:50,011 - INFO - Inv No Sales: No aged products among those on hand.
+2025-05-04 02:03:59,023 - INFO - File DLR2JD_04MAY2025_020350.DAT uploaded successfully.
+2025-05-04 02:03:59,024 - INFO - {'status_code': 204, 'filename': 'DLR2JD_04MAY2025_020350.DAT', 'message': 'File uploaded successfully'}
+2025-05-04 02:03:59,024 - INFO - Script execution ended successfully.
+2025-05-11 02:00:02,396 - INFO - Script execution started.
+2025-05-11 02:00:02,401 - INFO - PMM Main function started.
+2025-05-11 02:00:02,403 - INFO - Using default anchor month (last complete month): 2025-04-01 to 2025-04-30
+2025-05-11 02:00:04,248 - INFO - Derived Date Ranges: Last12(2024-04-01 to 2025-04-30), Prior12(2023-04-01 to 2024-03-31)
+2025-05-11 02:00:04,248 - INFO - Generated 13 month-ends for Last12, 12 for Prior12.
+2025-05-11 02:00:04,248 - INFO - Using historical reference date for snapshot values: 2025-04-30 23:59:59
+2025-05-11 02:00:49,924 - INFO - Inv No Sales: No aged products among those on hand.
+2025-05-11 02:01:35,909 - INFO - Inv No Sales: No aged products among those on hand.
+2025-05-11 02:02:15,965 - INFO - Inv No Sales: No aged products among those on hand.
+2025-05-11 02:03:02,785 - INFO - Inv No Sales: No aged products among those on hand.
+2025-05-11 02:03:56,778 - INFO - Inv No Sales: No aged products among those on hand.
+2025-05-11 02:04:08,056 - INFO - File DLR2JD_11MAY2025_020356.DAT uploaded successfully.
+2025-05-11 02:04:08,056 - INFO - {'status_code': 204, 'filename': 'DLR2JD_11MAY2025_020356.DAT', 'message': 'File uploaded successfully'}
+2025-05-11 02:04:08,056 - INFO - Script execution ended successfully.
+2025-05-18 02:00:02,485 - INFO - Script execution started.
+2025-05-18 02:00:02,489 - INFO - PMM Main function started.
+2025-05-18 02:00:02,491 - INFO - Using default anchor month (last complete month): 2025-04-01 to 2025-04-30
+2025-05-18 02:00:04,298 - INFO - Derived Date Ranges: Last12(2024-04-01 to 2025-04-30), Prior12(2023-04-01 to 2024-03-31)
+2025-05-18 02:00:04,298 - INFO - Generated 13 month-ends for Last12, 12 for Prior12.
+2025-05-18 02:00:04,298 - INFO - Using historical reference date for snapshot values: 2025-04-30 23:59:59
+2025-05-18 02:00:54,258 - INFO - Inv No Sales: No aged products among those on hand.
+2025-05-18 02:01:44,893 - INFO - Inv No Sales: No aged products among those on hand.
+2025-05-18 02:02:32,131 - INFO - Inv No Sales: No aged products among those on hand.
+2025-05-18 02:03:26,371 - INFO - Inv No Sales: No aged products among those on hand.
+2025-05-18 02:04:22,840 - INFO - Inv No Sales: No aged products among those on hand.
+2025-05-18 02:04:33,874 - INFO - File DLR2JD_18MAY2025_020423.DAT uploaded successfully.
+2025-05-18 02:04:33,874 - INFO - {'status_code': 204, 'filename': 'DLR2JD_18MAY2025_020423.DAT', 'message': 'File uploaded successfully'}
+2025-05-18 02:04:33,874 - INFO - Script execution ended successfully.
+2025-05-25 02:00:02,896 - INFO - Script execution started.
+2025-05-25 02:00:02,901 - INFO - PMM Main function started.
+2025-05-25 02:00:02,904 - INFO - Using default anchor month (last complete month): 2025-04-01 to 2025-04-30
+2025-05-25 02:00:04,435 - INFO - Derived Date Ranges: Last12(2024-04-01 to 2025-04-30), Prior12(2023-04-01 to 2024-03-31)
+2025-05-25 02:00:04,435 - INFO - Generated 13 month-ends for Last12, 12 for Prior12.
+2025-05-25 02:00:04,435 - INFO - Using historical reference date for snapshot values: 2025-04-30 23:59:59
+2025-05-25 02:00:51,000 - INFO - Inv No Sales: No aged products among those on hand.
+2025-05-25 02:01:45,551 - INFO - Inv No Sales: No aged products among those on hand.
+2025-05-25 02:02:24,245 - INFO - Inv No Sales: No aged products among those on hand.
+2025-05-25 02:03:13,425 - INFO - Inv No Sales: No aged products among those on hand.
+2025-05-25 02:04:06,307 - INFO - Inv No Sales: No aged products among those on hand.
+2025-05-25 02:04:17,421 - INFO - File DLR2JD_25MAY2025_020406.DAT uploaded successfully.
+2025-05-25 02:04:17,422 - INFO - {'status_code': 204, 'filename': 'DLR2JD_25MAY2025_020406.DAT', 'message': 'File uploaded successfully'}
+2025-05-25 02:04:17,422 - INFO - Script execution ended successfully.
+2025-05-31 19:00:54,739 - INFO - Script execution started.
+2025-05-31 19:00:54,739 - INFO - Attempting to fetch PHP to USD exchange rate...
+2025-05-31 19:00:56,014 - INFO - Successfully saved latest rate (0.017931) to fallback file /var/www/abomar-pmm-api/abomar-pmm/main/pmm/latest_exchange_rate_fallback.json.
+2025-05-31 19:00:56,014 - INFO - CONVERSION_RATE_FETCHED: 1 USD = 55.769338 PHP, SOURCE: API, TIMESTAMP: 2025-05-31T11:00:56.014502+00:00
+2025-05-31 19:00:56,016 - INFO - PMM Main function started.
+2025-05-31 19:00:56,017 - INFO - Using default anchor month (last complete month): 2025-04-01 to 2025-04-30
+2025-05-31 19:00:57,876 - INFO - Derived Date Ranges: Last12(2024-04-01 to 2025-04-30), Prior12(2023-04-01 to 2024-03-31)
+2025-05-31 19:00:57,876 - INFO - Generated 13 month-ends for Last12, 12 for Prior12.
+2025-05-31 19:00:57,876 - INFO - Using historical reference date for snapshot values: 2025-04-30 23:59:59
+2025-05-31 19:01:44,457 - INFO - Inv No Sales: No aged products among those on hand.
+2025-05-31 19:02:31,798 - INFO - Inv No Sales: No aged products among those on hand.
+2025-05-31 19:03:11,555 - INFO - Inv No Sales: No aged products among those on hand.
+2025-05-31 19:04:05,211 - INFO - Inv No Sales: No aged products among those on hand.
+2025-05-31 19:04:59,501 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-01 00:30:02,797 - INFO - Script execution started.
+2025-06-01 00:30:02,798 - INFO - Attempting to fetch PHP to USD exchange rate...
+2025-06-01 00:30:03,700 - INFO - Successfully saved latest rate (0.017931) to fallback file /var/www/abomar-pmm-api/abomar-pmm/main/pmm/latest_exchange_rate_fallback.json.
+2025-06-01 00:30:03,700 - INFO - CONVERSION_RATE_FETCHED: 1 USD = 55.769338 PHP, SOURCE: API, TIMESTAMP: 2025-05-31T16:30:03.700296+00:00
+2025-06-01 00:30:03,701 - INFO - PMM Main function started.
+2025-06-01 00:30:03,703 - INFO - Using default anchor month (last complete month): 2025-05-01 to 2025-05-31
+2025-06-01 00:30:06,106 - INFO - Derived Date Ranges: Last12(2024-05-01 to 2025-05-31), Prior12(2023-05-01 to 2024-04-30)
+2025-06-01 00:30:06,106 - INFO - Generated 13 month-ends for Last12, 12 for Prior12.
+2025-06-01 00:30:06,106 - INFO - Using historical reference date for snapshot values: 2025-05-31 23:59:59
+2025-06-01 00:30:54,662 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-01 00:31:42,757 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-01 00:32:21,135 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-01 00:33:06,879 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-01 00:34:01,276 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-01 00:34:08,286 - INFO - File DLR2JD_01JUN2025_003401.DAT uploaded successfully.
+2025-06-01 00:34:08,286 - INFO - {'status_code': 204, 'filename': 'DLR2JD_01JUN2025_003401.DAT', 'message': 'File uploaded successfully'}
+2025-06-01 00:34:08,286 - INFO - Script execution ended successfully.
+2025-06-01 02:00:03,098 - INFO - Script execution started.
+2025-06-01 02:00:03,099 - INFO - Attempting to fetch PHP to USD exchange rate...
+2025-06-01 02:00:03,981 - INFO - Successfully saved latest rate (0.017931) to fallback file /var/www/abomar-pmm-api/abomar-pmm/main/pmm/latest_exchange_rate_fallback.json.
+2025-06-01 02:00:03,981 - INFO - CONVERSION_RATE_FETCHED: 1 USD = 55.769338 PHP, SOURCE: API, TIMESTAMP: 2025-05-31T18:00:03.981384+00:00
+2025-06-01 02:00:03,982 - INFO - PMM Main function started.
+2025-06-01 02:00:03,984 - INFO - Using default anchor month (last complete month): 2025-05-01 to 2025-05-31
+2025-06-01 02:00:05,772 - INFO - Derived Date Ranges: Last12(2024-05-01 to 2025-05-31), Prior12(2023-05-01 to 2024-04-30)
+2025-06-01 02:00:05,772 - INFO - Generated 13 month-ends for Last12, 12 for Prior12.
+2025-06-01 02:00:05,772 - INFO - Using historical reference date for snapshot values: 2025-05-31 23:59:59
+2025-06-01 02:00:50,628 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-01 02:01:36,470 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-01 02:02:16,866 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-01 02:03:04,195 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-01 02:04:01,683 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-01 02:04:09,601 - INFO - File DLR2JD_01JUN2025_020401.DAT uploaded successfully.
+2025-06-01 02:04:09,602 - INFO - {'status_code': 204, 'filename': 'DLR2JD_01JUN2025_020401.DAT', 'message': 'File uploaded successfully'}
+2025-06-01 02:04:09,602 - INFO - Script execution ended successfully.
+2025-06-06 09:05:05,664 - INFO - Script execution started.
+2025-06-06 09:05:05,668 - INFO - Attempting to fetch PHP to USD exchange rate...
+2025-06-06 09:05:06,576 - INFO - Successfully saved latest rate (0.017979) to fallback file /var/www/abomar-pmm-api/abomar-pmm/main/pmm/latest_exchange_rate_fallback.json.
+2025-06-06 09:05:06,576 - INFO - CONVERSION_RATE_FETCHED: 1 USD = 55.620446 PHP, SOURCE: API, TIMESTAMP: 2025-06-06T01:05:06.576607+00:00
+2025-06-06 09:05:06,578 - INFO - PMM Main function started.
+2025-06-06 09:05:18,760 - INFO - Script execution started.
+2025-06-06 09:05:18,760 - INFO - Attempting to fetch PHP to USD exchange rate...
+2025-06-06 09:05:19,613 - INFO - Successfully saved latest rate (0.017979) to fallback file /var/www/abomar-pmm-api/abomar-pmm/main/pmm/latest_exchange_rate_fallback.json.
+2025-06-06 09:05:19,613 - INFO - CONVERSION_RATE_FETCHED: 1 USD = 55.620446 PHP, SOURCE: API, TIMESTAMP: 2025-06-06T01:05:19.613624+00:00
+2025-06-06 09:05:19,615 - INFO - PMM Main function started.
+2025-06-06 09:05:19,617 - INFO - Using specified anchor month: 2025-01-01 to 2025-01-31
+2025-06-06 09:05:21,062 - INFO - Derived Date Ranges: Last12(2024-01-01 to 2025-01-31), Prior12(2023-01-01 to 2023-12-31)
+2025-06-06 09:05:21,062 - INFO - Generated 13 month-ends for Last12, 12 for Prior12.
+2025-06-06 09:05:21,062 - INFO - Using historical reference date for snapshot values: 2025-01-31 23:59:59
+2025-06-06 09:06:15,261 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-06 09:07:05,576 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-06 09:07:46,932 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-06 09:08:35,048 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-06 09:09:28,012 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-06 09:09:37,402 - INFO - File DLR2JD_06JUN2025_090928.DAT uploaded successfully.
+2025-06-06 09:09:37,403 - INFO - {'status_code': 204, 'filename': 'DLR2JD_06JUN2025_090928.DAT', 'message': 'File uploaded successfully'}
+2025-06-06 09:09:37,403 - INFO - Script execution ended successfully.
+2025-06-06 21:30:50,128 - INFO - Script execution started.
+2025-06-06 21:30:50,128 - INFO - Attempting to fetch PHP to USD exchange rate...
+2025-06-06 21:30:51,285 - INFO - Successfully saved latest rate (0.017873) to fallback file /var/www/abomar-pmm-api/abomar-pmm/main/pmm/latest_exchange_rate_fallback.json.
+2025-06-06 21:30:51,285 - INFO - CONVERSION_RATE_FETCHED: 1 USD = 55.950316 PHP, SOURCE: API, TIMESTAMP: 2025-06-06T13:30:51.285271+00:00
+2025-06-06 21:30:51,286 - INFO - PMM Main function started.
+2025-06-06 21:30:51,288 - INFO - Using specified anchor month: 2025-01-01 to 2025-01-31
+2025-06-06 21:30:52,659 - INFO - Derived Date Ranges: Last12(2024-01-01 to 2025-01-31), Prior12(2023-01-01 to 2023-12-31)
+2025-06-06 21:30:52,659 - INFO - Generated 13 month-ends for Last12, 12 for Prior12.
+2025-06-06 21:30:52,659 - INFO - Using historical reference date for snapshot values: 2025-01-31 23:59:59
+2025-06-06 21:31:42,425 - INFO - Script execution started.
+2025-06-06 21:31:42,426 - INFO - Attempting to fetch PHP to USD exchange rate...
+2025-06-06 21:31:43,593 - INFO - Successfully saved latest rate (0.017873) to fallback file /var/www/abomar-pmm-api/abomar-pmm/main/pmm/latest_exchange_rate_fallback.json.
+2025-06-06 21:31:43,594 - INFO - CONVERSION_RATE_FETCHED: 1 USD = 55.950316 PHP, SOURCE: API, TIMESTAMP: 2025-06-06T13:31:43.594116+00:00
+2025-06-06 21:31:43,595 - INFO - PMM Main function started.
+2025-06-06 21:31:43,596 - INFO - Using specified anchor month: 2025-01-01 to 2025-01-31
+2025-06-06 21:31:44,911 - INFO - Derived Date Ranges: Last12(2024-01-01 to 2025-01-31), Prior12(2023-01-01 to 2023-12-31)
+2025-06-06 21:31:44,911 - INFO - Generated 13 month-ends for Last12, 12 for Prior12.
+2025-06-06 21:31:44,911 - INFO - Using historical reference date for snapshot values: 2025-01-31 23:59:59
+2025-06-06 21:32:32,802 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-06 21:33:19,016 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-06 21:33:55,036 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-06 21:34:44,567 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-06 21:35:38,559 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-06 21:35:45,584 - INFO - File DLR2JD_06JUN2025_213538.DAT uploaded successfully.
+2025-06-06 21:35:45,585 - INFO - {'status_code': 204, 'filename': 'DLR2JD_06JUN2025_213538.DAT', 'message': 'File uploaded successfully'}
+2025-06-06 21:35:45,585 - INFO - Script execution ended successfully.
+2025-06-06 21:37:22,023 - INFO - Script execution started.
+2025-06-06 21:37:22,023 - INFO - Attempting to fetch PHP to USD exchange rate...
+2025-06-06 21:37:23,085 - INFO - Successfully saved latest rate (0.017880) to fallback file /var/www/abomar-pmm-api/abomar-pmm/main/pmm/latest_exchange_rate_fallback.json.
+2025-06-06 21:37:23,085 - INFO - CONVERSION_RATE_FETCHED: 1 USD = 55.928412 PHP, SOURCE: API, TIMESTAMP: 2025-06-06T13:37:23.085314+00:00
+2025-06-06 21:37:23,086 - INFO - PMM Main function started.
+2025-06-06 21:37:23,088 - INFO - Using specified anchor month: 2025-02-01 to 2025-02-28
+2025-06-06 21:37:24,986 - INFO - Derived Date Ranges: Last12(2024-02-01 to 2025-02-28), Prior12(2023-02-01 to 2024-01-31)
+2025-06-06 21:37:24,986 - INFO - Generated 13 month-ends for Last12, 12 for Prior12.
+2025-06-06 21:37:24,986 - INFO - Using historical reference date for snapshot values: 2025-02-28 23:59:59
+2025-06-06 21:38:08,912 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-06 21:38:55,222 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-06 21:39:38,156 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-06 21:40:24,470 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-06 21:41:19,422 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-06 21:41:25,950 - INFO - File DLR2JD_06JUN2025_214119.DAT uploaded successfully.
+2025-06-06 21:41:25,950 - INFO - {'status_code': 204, 'filename': 'DLR2JD_06JUN2025_214119.DAT', 'message': 'File uploaded successfully'}
+2025-06-06 21:41:25,950 - INFO - Script execution ended successfully.
+2025-06-06 21:44:21,401 - INFO - Script execution started.
+2025-06-06 21:44:21,402 - INFO - Attempting to fetch PHP to USD exchange rate...
+2025-06-06 21:44:29,138 - INFO - Successfully saved latest rate (0.017886) to fallback file /var/www/abomar-pmm-api/abomar-pmm/main/pmm/latest_exchange_rate_fallback.json.
+2025-06-06 21:44:29,138 - INFO - CONVERSION_RATE_FETCHED: 1 USD = 55.909650 PHP, SOURCE: API, TIMESTAMP: 2025-06-06T13:44:29.138182+00:00
+2025-06-06 21:44:29,139 - INFO - PMM Main function started.
+2025-06-06 21:44:29,141 - INFO - Using specified anchor month: 2025-03-01 to 2025-03-31
+2025-06-06 21:44:30,205 - INFO - Derived Date Ranges: Last12(2024-03-01 to 2025-03-31), Prior12(2023-03-01 to 2024-02-29)
+2025-06-06 21:44:30,205 - INFO - Generated 13 month-ends for Last12, 12 for Prior12.
+2025-06-06 21:44:30,205 - INFO - Using historical reference date for snapshot values: 2025-03-31 23:59:59
+2025-06-06 21:45:13,384 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-06 21:46:06,917 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-06 21:46:45,012 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-06 21:47:31,759 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-06 21:48:27,600 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-06 21:48:38,269 - INFO - File DLR2JD_06JUN2025_214827.DAT uploaded successfully.
+2025-06-06 21:48:38,269 - INFO - {'status_code': 204, 'filename': 'DLR2JD_06JUN2025_214827.DAT', 'message': 'File uploaded successfully'}
+2025-06-06 21:48:38,269 - INFO - Script execution ended successfully.
+2025-06-06 21:48:54,289 - INFO - Script execution started.
+2025-06-06 21:48:54,290 - INFO - Attempting to fetch PHP to USD exchange rate...
+2025-06-06 21:48:55,297 - INFO - Successfully saved latest rate (0.017883) to fallback file /var/www/abomar-pmm-api/abomar-pmm/main/pmm/latest_exchange_rate_fallback.json.
+2025-06-06 21:48:55,297 - INFO - CONVERSION_RATE_FETCHED: 1 USD = 55.919029 PHP, SOURCE: API, TIMESTAMP: 2025-06-06T13:48:55.297274+00:00
+2025-06-06 21:48:55,298 - INFO - PMM Main function started.
+2025-06-06 21:48:55,300 - INFO - Using specified anchor month: 2025-04-01 to 2025-04-30
+2025-06-06 21:48:56,345 - INFO - Derived Date Ranges: Last12(2024-04-01 to 2025-04-30), Prior12(2023-04-01 to 2024-03-31)
+2025-06-06 21:48:56,345 - INFO - Generated 13 month-ends for Last12, 12 for Prior12.
+2025-06-06 21:48:56,345 - INFO - Using historical reference date for snapshot values: 2025-04-30 23:59:59
+2025-06-06 21:49:40,965 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-06 21:50:31,064 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-06 21:51:07,629 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-06 21:51:56,477 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-06 21:52:48,634 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-06 21:52:59,549 - INFO - File DLR2JD_06JUN2025_215248.DAT uploaded successfully.
+2025-06-06 21:52:59,549 - INFO - {'status_code': 204, 'filename': 'DLR2JD_06JUN2025_215248.DAT', 'message': 'File uploaded successfully'}
+2025-06-06 21:52:59,549 - INFO - Script execution ended successfully.
+2025-06-06 21:54:01,183 - INFO - Script execution started.
+2025-06-06 21:54:01,184 - INFO - Attempting to fetch PHP to USD exchange rate...
+2025-06-06 21:54:02,241 - INFO - Successfully saved latest rate (0.017881) to fallback file /var/www/abomar-pmm-api/abomar-pmm/main/pmm/latest_exchange_rate_fallback.json.
+2025-06-06 21:54:02,241 - INFO - CONVERSION_RATE_FETCHED: 1 USD = 55.925284 PHP, SOURCE: API, TIMESTAMP: 2025-06-06T13:54:02.241607+00:00
+2025-06-06 21:54:02,243 - INFO - PMM Main function started.
+2025-06-06 21:54:02,244 - INFO - Using specified anchor month: 2025-05-01 to 2025-05-31
+2025-06-06 21:54:03,315 - INFO - Derived Date Ranges: Last12(2024-05-01 to 2025-05-31), Prior12(2023-05-01 to 2024-04-30)
+2025-06-06 21:54:03,315 - INFO - Generated 13 month-ends for Last12, 12 for Prior12.
+2025-06-06 21:54:03,315 - INFO - Using historical reference date for snapshot values: 2025-05-31 23:59:59
+2025-06-06 21:54:49,235 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-06 21:55:39,118 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-06 21:56:17,397 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-06 21:57:07,887 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-06 21:58:04,061 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-06 21:58:15,056 - INFO - File DLR2JD_06JUN2025_215804.DAT uploaded successfully.
+2025-06-06 21:58:15,057 - INFO - {'status_code': 204, 'filename': 'DLR2JD_06JUN2025_215804.DAT', 'message': 'File uploaded successfully'}
+2025-06-06 21:58:15,057 - INFO - Script execution ended successfully.
+2025-06-08 02:00:02,814 - INFO - Script execution started.
+2025-06-08 02:00:02,815 - INFO - Attempting to fetch PHP to USD exchange rate...
+2025-06-08 02:00:03,728 - INFO - Successfully saved latest rate (0.017885) to fallback file /var/www/abomar-pmm-api/abomar-pmm/main/pmm/latest_exchange_rate_fallback.json.
+2025-06-08 02:00:03,728 - INFO - CONVERSION_RATE_FETCHED: 1 USD = 55.912776 PHP, SOURCE: API, TIMESTAMP: 2025-06-07T18:00:03.728947+00:00
+2025-06-08 02:00:03,730 - INFO - PMM Main function started.
+2025-06-08 02:00:03,732 - INFO - Using default anchor month (last complete month): 2025-05-01 to 2025-05-31
+2025-06-08 02:00:06,127 - INFO - Derived Date Ranges: Last12(2024-05-01 to 2025-05-31), Prior12(2023-05-01 to 2024-04-30)
+2025-06-08 02:00:06,127 - INFO - Generated 13 month-ends for Last12, 12 for Prior12.
+2025-06-08 02:00:06,127 - INFO - Using historical reference date for snapshot values: 2025-05-31 23:59:59
+2025-06-08 02:00:52,790 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-08 02:01:49,008 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-08 02:02:29,114 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-08 02:03:17,127 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-08 02:04:11,145 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-08 02:04:23,027 - INFO - File DLR2JD_08JUN2025_020411.DAT uploaded successfully.
+2025-06-08 02:04:23,027 - INFO - {'status_code': 204, 'filename': 'DLR2JD_08JUN2025_020411.DAT', 'message': 'File uploaded successfully'}
+2025-06-08 02:04:23,028 - INFO - Script execution ended successfully.
+2025-06-15 02:00:03,411 - INFO - Script execution started.
+2025-06-15 02:00:03,415 - INFO - Attempting to fetch PHP to USD exchange rate...
+2025-06-15 02:00:04,386 - INFO - Successfully saved latest rate (0.017828) to fallback file /var/www/abomar-pmm-api/abomar-pmm/main/pmm/latest_exchange_rate_fallback.json.
+2025-06-15 02:00:04,386 - INFO - CONVERSION_RATE_FETCHED: 1 USD = 56.091541 PHP, SOURCE: API, TIMESTAMP: 2025-06-14T18:00:04.386750+00:00
+2025-06-15 02:00:04,388 - INFO - PMM Main function started.
+2025-06-15 02:00:04,389 - INFO - Using default anchor month (last complete month): 2025-05-01 to 2025-05-31
+2025-06-15 02:00:05,859 - INFO - Derived Date Ranges: Last12(2024-05-01 to 2025-05-31), Prior12(2023-05-01 to 2024-04-30)
+2025-06-15 02:00:05,859 - INFO - Generated 13 month-ends for Last12, 12 for Prior12.
+2025-06-15 02:00:05,859 - INFO - Using historical reference date for snapshot values: 2025-05-31 23:59:59
+2025-06-15 02:00:53,931 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-15 02:01:42,343 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-15 02:02:18,879 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-15 02:03:04,269 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-15 02:04:02,774 - INFO - Inv No Sales: No aged products among those on hand.
+2025-06-15 02:04:09,741 - INFO - File DLR2JD_15JUN2025_020402.DAT uploaded successfully.
+2025-06-15 02:04:09,741 - INFO - {'status_code': 204, 'filename': 'DLR2JD_15JUN2025_020402.DAT', 'message': 'File uploaded successfully'}
+2025-06-15 02:04:09,741 - INFO - Script execution ended successfully.

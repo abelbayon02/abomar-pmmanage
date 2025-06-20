@@ -1,20 +1,45 @@
 #from odoo_configuration_pmmanage import get_server_proxy, fetch_data, db, username, password, uid, url, models, common
-from odoo_configuration_pmmanage import fetch_data, db, password, models, uid
+
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from collections import defaultdict
 import re
+import sys
 import time
 import random
 import xmlrpc.client
 import shutil
 import os
 import json
-import openpyxl
+# import openpyxl
 import base64
 from concurrent.futures import ThreadPoolExecutor
+import xlsxwriter
+from io import BytesIO
+import base64
+# import csv
+from itertools import islice
+import concurrent.futures
+import traceback
+import logging
 
-output_json_path = "matched_products.json"
+module_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../'))
+if module_path not in sys.path:
+    sys.path.append(module_path)
+
+
+from odoo_config.odoo_configuration_pmmanage import fetch_data, db, password, uid, models
+from email_sending import send_email
+
+output_json_path = "/var/www/abomar-pmm-api/abomar-pmm/main/odoo/matched_products.json"
+log_filename = "/var/www/abomar-pmm-api/abomar-pmm/main/odoo/PRICEFILE.log" 
+
+logging.basicConfig(
+    filename=log_filename,
+    filemode="a",  # Append mode: new log entries are added to the existing file
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 
 def GET_CATEGORY():
     category_name = 'Parts / AG / Tractor / John Deere'
@@ -123,6 +148,9 @@ def _prepare_supplierinfo_batch(missing_product_batch, added_product_tmpl_ids):
     Returns:
         list: A list of dictionaries to insert into product.supplierinfo.
     """
+    routes = GET_ROUTE_IDS()
+    # Create a mapping of product_code to route IDs if necessary
+    route_ids = [route['id'] for route in routes] if routes else []
     supplierinfo_batch = []
     for product in missing_product_batch:
         product_code = product['product_code']
@@ -138,6 +166,9 @@ def _prepare_supplierinfo_batch(missing_product_batch, added_product_tmpl_ids):
                 'partner_id': product.get('partner_id', 0),
                 'date_start': product.get('start_date', '')
             }
+
+            if route_ids:
+                vals['route_ids'] = [(6, 0, route_ids)]
 
             # Print the dictionary for each product to check its structure
             print(f"Record being added: {vals}")
@@ -304,7 +335,25 @@ def GET_PRODUCT_TMPL_ID(retries=5, batch_size=100000, max_workers=4):
     end_time = time.time()
     return dict(result_dict)
 
-PRODUCTTMPL_DICTIONARY = GET_PRODUCT_TMPL_ID() 
+PRODUCTTMPL_DICTIONARY = GET_PRODUCT_TMPL_ID()
+
+def GET_ROUTE_IDS():
+    """
+    Fetch all available route IDs from the 'stock.route' model.
+
+    Returns:
+        list: A list of dictionaries containing route IDs, e.g., [{'id': 37}, {'id': 26}, ...].
+              Returns an empty list if no routes are found.
+    """
+    try:
+        # Fetch the routes
+        routes = fetch_data(models, 'stock.route', 'search_read', domain=[], fields=['id'])
+        if not routes:
+            print("No routes found.")
+        return routes
+    except Exception as e:
+        print(f"Error fetching route IDs: {e}")
+        return []
                     
 def GET_PRICELISTS():
     products = fetch_data(models, 'product.supplierinfo', 'search_read',
@@ -374,12 +423,13 @@ def PROCESS_BY_BATCH(data_batch, batch_type, batch_size=20000, retries=10):
                 # DELETE_SPECIFIC_VENDOR_PRICELISTS(product_ids, batch_size)
 
             # Call fetch_data to create records in Odoo
-            fetch_data(
+            price = fetch_data(
                 models,
                 'product.supplierinfo',
                 'create',
                 values=data_batch  # Corrected from [data_batch] to data_batch
             )
+
 
             print(f"Batch processed successfully.")
             return True  # Batch processed successfully
@@ -403,38 +453,40 @@ def PROCESS_BY_BATCH(data_batch, batch_type, batch_size=20000, retries=10):
     return False
 
 
-def PROCESS_DAT_PRICE_FILE(directory, type, batch_size=20000, retry=5):
+def PROCESS_DAT_PRICE_FILE(directory, file_folder, type, batch_size=20000, retry=5):
     """
     Process DAT price file in batches, retrying if rate limits are encountered.
     """
     batch_existing = []  # For existing products in PRODUCTTMPL_DICTIONARY
     batch_missing = []   # For products missing in PRODUCTTMPL_DICTIONARY
     specific_product_ids = []  # To store product IDs for specific deletion
-
+    processed_count = 0
     try:
         if type == 'FULL':
-            DELETE_ALL_VENDOR_PRICELISTS(batch_size=batch_size)  # Uncomment as needed
+            DELETE_ALL_VENDOR_PRICELISTS(batch_size=batch_size, file_folder=file_folder)  # Uncomment as needed
             print("Processing FULL batch, deleting all vendor pricelists.")
         elif type == 'NET':
             print("Gathering product IDs for specific vendor price list deletions...")
+
+        print(f"FOLDER FOR BACKUP {file_folder}")
 
         for filename in os.listdir(directory):
             if filename.endswith(".DAT"):
                 file_path = os.path.join(directory, filename)
                 vendor_id = PARTNER_ID  # Assuming PARTNER_ID is defined
-
                 # Set 'partner_id' field
                 partner_id = vendor_id if vendor_id else 0
-                with open(file_path, 'r') as dat_file:
+                with open(file_path, 'r', encoding='latin1') as dat_file:
                     header = next(dat_file)  # Skip header
                     effective_date = header[54:62]
-
-                    for line in dat_file:
+                    quantity = 'E'
+                    for line_number, line in enumerate(dat_file, start=2):
                         # Extract product data from the line
                         product_id = line[0:17].strip()
                         product_name = line[24:51].strip().lstrip('-')
                         start_date = line[208:216].strip()
-                        quantity = line[162].strip()
+                        if len(line) > 163:
+                            quantity = line[163].strip() 
                         price = line[56:72].strip()
 
                         JD_list_price = line[72:87].strip()
@@ -455,70 +507,23 @@ def PROCESS_DAT_PRICE_FILE(directory, type, batch_size=20000, retry=5):
                         today = datetime.today().date()
 
                         # Only check the start date if type is NET
+                        # client requested change , remove add product if doesnt exist in product template model - 2025/01/17
                         if type == 'NET' and start_date:
+                            print("Preparing NET lines")
                             start_date_date = datetime.strptime(start_date_formatted, "%Y-%m-%d").date()
-                            if start_date and start_date_date >= today:
-                                  # Add product ID to the list for specific deletions
-                                specific_product_ids.append(product_id)
-                                if product_id in PRODUCTTMPL_DICTIONARY:
-                                    product_tmpl_id = PRODUCTTMPL_DICTIONARY[product_id]
-                                
+                            if start_date and start_date_date == today:
+                                try:
+                                    # Add product ID to the list for specific deletions
+                                    specific_product_ids.append(product_id)
+                                    
+                                    # Safely retrieve product_tmpl_id from the dictionary
+                                    product_tmpl_id = PRODUCTTMPL_DICTIONARY.get(product_id)
+                                    
                                     # Ensure product_tmpl_id is not a set
                                     if isinstance(product_tmpl_id, set):
                                         product_tmpl_id = list(product_tmpl_id)[0] if product_tmpl_id else None
-                                    # Prepare data for the batch
-                                    batch_existing.append({
-                                        'partner_id': partner_id,
-                                        'product_name': product_name,
-                                        'product_code': product_id,
-                                        'product_tmpl_id': product_tmpl_id,
-                                        'price': float(price),
-                                        'x_studio_jd_list_price': float(JD_list_price),
-                                        'min_qty': 1 if quantity == 'E' else 100 if quantity == 'C' else int(quantity) if quantity.isdigit() else 1,
-                                        'currency_id': 1,
-                                        'date_start': start_date_formatted
-                                    })
-
-                                    if len(batch_existing) >= batch_size:
-                                        print(f"Batch size reached: {len(batch_existing)}. Sending to process...")
-                                        if PROCESS_BY_BATCH(batch_existing, type):
-                                            batch_existing.clear()
-                                            time.sleep(1)  # Add a small delay (e.g., 1 second)
-                                        else:
-                                            print("Failed to process the batch.")
-                                            return False
-                                else:
-                                    batch_missing.append({
-                                        'partner_id': partner_id,
-                                        'product_name': product_name,
-                                        'product_code': product_id,
-                                        'product_tmpl_id': False,
-                                        'price': float(price),
-                                        'x_studio_jd_list_price': float(JD_list_price),
-                                        'min_qty': 1 if quantity == 'E' else 100 if quantity == 'C' else int(quantity) if quantity.isdigit() else 1,
-                                        'currency_id': 1,
-                                        'date_start': start_date_formatted
-                                    })
-
-                                    # Process missing products in batches
-                                    if len(batch_missing) >= batch_size:
-                                        print(f"Processing batch of missing products: {len(batch_missing)} items.")
-                                        if ADD_NEW_PRODUCTS(batch_missing):
-                                            batch_missing.clear()
-                                        else:
-                                            print("Failed to process missing products batch.")
-                                            return False
-
-                        elif type == 'FULL':  # If type is FULL, no need to check the start date
-                             if product_id in PRODUCTTMPL_DICTIONARY:  # Assuming PRODUCTTMPL_DICTIONARY is defined
-                                # Fetch the associated product template ID
-                                product_tmpl_id = PRODUCTTMPL_DICTIONARY[product_id]
-                               
-                                # Ensure product_tmpl_id is not a set
-                                if isinstance(product_tmpl_id, set):
-                                    product_tmpl_id = list(product_tmpl_id)[0] if product_tmpl_id else None
-
-                                if start_date:  # Only append if start_date is not empty
+                                    
+                                    # Validate and prepare data for the batch
                                     batch_existing.append({
                                         'partner_id': partner_id,
                                         'product_name': product_name,
@@ -528,217 +533,557 @@ def PROCESS_DAT_PRICE_FILE(directory, type, batch_size=20000, retry=5):
                                         'x_studio_jd_list_price': float(JD_list_price),
                                         'min_qty': 1 if quantity == 'E' else 100 if quantity == 'C' else int(quantity) if quantity.isdigit() else 1,
                                         'currency_id': 1,
-                                        'date_start': start_date_formatted  # Only add if start_date is not empty
+                                        'date_start': start_date_formatted
                                     })
-
+                                except Exception as e:
+                                    # Log the error for debugging
+                                    print(f"Error processing product ID {product_id}: {str(e)}")
+                                    # Optionally, log the product details for further investigation
+                                    print(f"Product details: partner_id={partner_id}, product_name={product_name}, price={price}, quantity={quantity}")
+                                    # Continue to the next product without terminating
+                                    continue
+                              
                                 if len(batch_existing) >= batch_size:
                                     print(f"Batch size reached: {len(batch_existing)}. Sending to process...")
                                     if PROCESS_BY_BATCH(batch_existing, type):
+                                        processed_count += len(batch_existing)
                                         batch_existing.clear()
                                         time.sleep(1)  # Add a small delay (e.g., 1 second)
                                     else:
                                         print("Failed to process the batch.")
                                         return False
-                             else:
-                                print(f"Product Doesn't Exist, Proceed to Add Product")
-                                # Collect missing products for adding
+                            else:
+                                print("Start date not equal to today. Skipping...")
+                               
+
+                        elif type == 'FULL':  # If type is FULL, no need to check the start date
+                            # if product_id in PRODUCTTMPL_DICTIONARY:  # Assuming PRODUCTTMPL_DICTIONARY is defined
+                            # Fetch the associated product template ID
+                            product_tmpl_id = PRODUCTTMPL_DICTIONARY.get(product_id)
+
+                            if isinstance(product_tmpl_id, set):
+                                product_tmpl_id = list(product_tmpl_id)[0] if product_tmpl_id else None
+
+                            if start_date:  # Only append if start_date is not empty
+                                batch_existing.append({
+                                    'partner_id': partner_id,
+                                    'product_name': product_name,
+                                    'product_code': product_id,
+                                    'product_tmpl_id': product_tmpl_id if product_tmpl_id else False,
+                                    'price': float(price),
+                                    'x_studio_jd_list_price': float(JD_list_price),
+                                    'min_qty': 1 if quantity == 'E' else 100 if quantity == 'C' else int(quantity) if quantity.isdigit() else 1,
+                                    'currency_id': 1,
+                                    'date_start': start_date_formatted  # Only add if start_date is not empty
+                                })
+
+                            if len(batch_existing) >= batch_size:
+                                print(f"Batch size reached: {len(batch_existing)}. Sending to process...")
+                                if PROCESS_BY_BATCH(batch_existing, type):
+                                    processed_count += len(batch_existing)
+                                    batch_existing.clear()
+                                    time.sleep(1)  # Add a small delay (e.g., 1 second)
+                                else:
+                                    print("Failed to process the batch.")
+                                    return False
                                 
-                                if start_date:
-                                    batch_missing.append({
-                                        'partner_id': partner_id,
-                                        'product_name': product_name,
-                                        'product_code': product_id,
-                                        'product_tmpl_id': False,
-                                        'price': float(price),
-                                        'x_studio_jd_list_price': float(JD_list_price),
-                                        'min_qty': 1 if quantity == 'E' else 100 if quantity == 'C' else int(quantity) if quantity.isdigit() else 1,
-                                        'currency_id': 1,
-                                        'date_start': start_date_formatted
-                                    })
-
-                                # Process missing products in batches
-                                if len(batch_missing) >= batch_size:
-                                    print(f"Processing batch of missing products: {len(batch_missing)} items.")
-                                    if ADD_NEW_PRODUCTS(batch_missing):
-                                        batch_missing.clear()
-                                    else:
-                                        print("Failed to process missing products batch.")
-                                        return False
-                                 
-
         # Call DELETE_SPECIFIC_VENDOR_PRICELISTS if type is NET
         if type == 'NET' and specific_product_ids:
             print("Deleting specific vendor price lists...")
-            DELETE_SPECIFIC_VENDOR_PRICELISTS(specific_product_ids)  # Uncomment as needed
+            DELETE_SPECIFIC_VENDOR_PRICELISTS(specific_product_ids,file_folder=file_folder)  # Uncomment as needed
 
         if batch_existing:
             if PROCESS_BY_BATCH(batch_existing, type):
+                processed_count += len(batch_existing)
                 print("Remaining batch processed successfully.")
             else:
                 print("Failed to process remaining batch.")
-                return False
+                return "Failed to process remaining batch."
             
-        if batch_missing:
-            print(f"Processing remaining missing products batch: {len(batch_missing)} items.")
-            if not ADD_NEW_PRODUCTS(batch_missing):
-                print("Failed to process remaining missing products batch.")
-                return False
+        # if batch_missing:
+        #     print(f"Processing remaining missing products batch: {len(batch_missing)} items.")
+        #     if not ADD_NEW_PRODUCTS(batch_missing):
+        #         print("Failed to process remaining missing products batch.")
+        #         return False
 
         print("All products loaded successfully.")
         if type == 'FULL':
             os.remove(file_path)
-        return True  # Success if all batches are processed
 
-    except Exception as e:
-        print(f"Error processing DAT price file: {e}")
-        return False  # Return False if an error occurs
-    
+        subject = 'PRICE FILE STATUS'
+        fileType = 'FULL' if type == 'FULL' else 'NET'
 
-    
-def DELETE_SPECIFIC_VENDOR_PRICELISTS(product_codes):
-    """
-    Deletes specific vendor price list entries based on product IDs in batches.
-    """
-    try:
-        # Fetch all vendor price list IDs
-        all_vendor_pricelist_ids = fetch_data(
-            models,
-            'product.supplierinfo',
-            'search_read',
-            domain=[('product_code', 'in', product_codes)],
-            fields=['id']
+        body = (
+            f"The {fileType} price file was successfully loaded on {datetime.today().strftime('%Y-%m-%d')}.\n\n"
+            f"A total of {processed_count} record(s) have been updated."
         )
 
-        if not all_vendor_pricelist_ids:
-            print("NO PRODUCT FOUND")
-            return
-        
-        # Extract the IDs
-        vendor_pricelist_ids = [item['id'] for item in all_vendor_pricelist_ids]
-        
-        print(f"Total vendor price lists to delete: {len(vendor_pricelist_ids)}")
-        
-        # Process in batches of 1000
-        batch_size = 1000
-        for i in range(0, len(vendor_pricelist_ids), batch_size):
-            batch_ids = vendor_pricelist_ids[i:i + batch_size]
-            # Delete the current batch
-            fetch_data(
-                models,
-                'product.supplierinfo',
-                'unlink',
-                ids=batch_ids
-            )
-            print(f"Deleted batch {i // batch_size + 1} with {len(batch_ids)} entries.")
-        
-        print("Deletion process completed successfully.")
-    except Exception as e:
-        print(f"Error during batch deletion of specific vendor price lists: {e}")
+        __log_value = f"The {fileType} price file was successfully loaded on {datetime.today().strftime('%Y-%m-%d')}. A total of {processed_count} record(s) have been updated."
 
-def DELETE_ALL_VENDOR_PRICELISTS(batch_size):
+
+        send_email(body, subject)
+        return __log_value  # Success if all batches are processed
+
+    except Exception as e:
+        error_trace = traceback.format_exc()
+        print(f"Error processing DAT price file: {e}")
+        return error_trace  # Return False if an error occurs
+    
+def DELETE_SPECIFIC_VENDOR_PRICELISTS(product_codes, batch_size=20000, file_folder=None, max_rows_per_file=200000):
     """
-    Deletes all vendor price list entries in batches of a given size.
-    Exports the data to a single spreadsheet before deletion.
+    Deletes specific vendor price list entries based on product codes in batches and writes them concurrently to Excel files.
     """
     try:
         current_date = datetime.now().strftime('%Y-%m-%d_%H%M%S')
-        spreadsheet_file_name = f"Vendor_Pricelist_BACKUP_{current_date}.xlsx"
-        folder_path = 'Spreadsheet'
-
-        if not os.path.exists(folder_path):
-            os.makedirs(folder_path)
-        print("Fetching all vendor price list IDs...")
-        all_vendor_pricelist_ids = fetch_data(
-            models,
-            'product.supplierinfo',
-            'search_read',
-            domain=[],
-            fields=['id']
-        )
-        print(f"Total vendor price lists to delete: {len(all_vendor_pricelist_ids)}")
-
-        # Prepare the data for the spreadsheet before deletion
-        rows = [['Vendor Name', 'Product Template', 'Minimum Quantity', 'Price', 'Currency']]  # Adding headers
-
-        # Fetch all vendor price list data to add to the spreadsheet
-        vendor_price_lists = fetch_data(
-            models,
-            'product.supplierinfo',
-            'search_read',
-            domain=[['id', 'in', [record['id'] for record in all_vendor_pricelist_ids]]],
-            fields=['partner_id', 'product_tmpl_id', 'min_qty', 'price', 'currency_id']
+        
+        # Parent folder: Spreadsheets
+        # parent_folder_path = "Spreadsheets"
+        parent_folder_path = "/var/www/abomar-pmm-api/abomar-pmm/main/odoo/Spreadsheets"
+        os.makedirs(parent_folder_path, exist_ok=True)  # Ensure the parent folder exists
+        
+        # Subfolder for the current backup: NET_{current_date}
+        backup_folder_path = os.path.join(parent_folder_path, f"NET_PRICEFILE_BACKUP_{current_date}")
+        os.makedirs(backup_folder_path, exist_ok=True)  # Create the subfolder for the backup
+        
+        print(f"Fetching specific vendor price list IDs...: {product_codes}")
+        vendor_price_generator = fetch_data_generator(
+            models, 'product.supplierinfo', 'search_read',
+            domain=[('product_code', 'in', product_codes)],
+            fields=['id'], batch_size=batch_size
         )
 
-        # Format the vendor price list data for the spreadsheet
-        for record in vendor_price_lists:
-            partner_name = record.get('partner_id')[1]  # Vendor name
-            product_name = record.get('product_tmpl_id')[1] if record.get('product_tmpl_id') else 'N/A'  # Product name
-            min_qty = record.get('min_qty', 0.0)
-            price = record.get('price', 0.0)
-            #currency = record.get('currency_id')[1] if record.get('currency_id') else 'N/A',
-           
+        print(f"IDS: {vendor_price_generator}")
+    
+        headers = ['Vendor Name', 'Product Code', 'Product Template', 'Minimum Quantity', 'Price', 'Currency']
+        file_count = 1
+        tasks = []
+        all_vendor_pricelist_ids = []
 
-            # Add the record to the rows for spreadsheet
-            rows.append([partner_name, product_name, min_qty, price])
+        with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+            print("Preparing to write Excel files...")
+            rows = []
+            for batch in vendor_price_generator:
+                print(f"BATCH: {batch}")
+                if not batch:
+                    print("Warning: Empty batch received. Skipping...")
+                    continue  # Skip processing if batch is empty
+                
+                batch_ids = [record.get('id') for record in batch if record.get('id') is not None]
+                
+                if not batch_ids:
+                    print("Warning: No valid IDs found in batch. Skipping...")
+                    continue  # Skip processing if all IDs are None
+                
+                print(f"Processing batch with {len(batch_ids)} valid records...")
 
-        # Create a new workbook and add the vendor price list data
-        wb = openpyxl.Workbook()
-        sheet = wb.active
-        sheet.title = "Vendor Price List"
+                vendor_price_lists = fetch_data(
+                    models, 'product.supplierinfo', 'search_read',
+                    domain=[['id', 'in', batch_ids]],
+                    fields=['partner_id', 'product_code', 'product_tmpl_id', 'min_qty', 'price', 'currency_id']
+                )
 
-        # Write the rows to the spreadsheet
-        for row in rows:
-            sheet.append(row)
+                print(f"vendor_price_lists :  {vendor_price_lists}")
+                
+                for record in vendor_price_lists:
+                    partner_name = record.get('partner_id', ['N/A'])[1] if isinstance(record.get('partner_id'), list) and record.get('partner_id') else 'N/A'
+                    product_code = record.get('product_code', 'N/A') or 'N/A'
+                    product_name = record.get('product_tmpl_id', ['N/A'])[1] if isinstance(record.get('product_tmpl_id'), list) and record.get('product_tmpl_id') else 'N/A'
+                    min_qty = record.get('min_qty', 0.0) or 0.0
+                    price = record.get('price', 0.0) or 0.0
+                    currency = record.get('currency_id', ['N/A'])[1] if isinstance(record.get('currency_id'), list) and record.get('currency_id') else 'N/A'
+                    rows.append([partner_name, product_code, product_name, min_qty, price, currency])
 
-        # Save the workbook to a file
-        spreadsheet_file_name = f"{spreadsheet_file_name}"
-        full_file_path = os.path.join(folder_path, spreadsheet_file_name)
+                    print(f"Processed: {partner_name}, {product_code}, {product_name}, {min_qty}, {price}, {currency}")
+                    all_vendor_pricelist_ids.append({'id': record.get('id')}) if record.get('id') else False
+                    
+                    if len(rows) >= max_rows_per_file:
+                        file_name = f"Vendor_Pricelist_NET_FILE_BACKUP_{current_date}_Part{file_count}.xlsx"
+                        file_path = os.path.join(backup_folder_path, file_name)
+                        task = executor.submit(write_excel_file, file_path, rows, headers)
+                        tasks.append((task, file_path, file_name))
+                        rows = []
+                        file_count += 1
+                
+            if rows:
+                file_name = f"Vendor_Pricelist_NET_FILE_BACKUP_{current_date}_Part{file_count}.xlsx"
+                file_path = os.path.join(backup_folder_path, file_name)
+                task = executor.submit(write_excel_file, file_path, rows, headers)
+                tasks.append((task, file_path, file_name))
+                
+            for task, file_path, file_name in tasks:
+                task.result()
+                print(f"{file_path}, {file_name}, {file_folder}")
+                upload_to_odoo(file_path, file_name, file_folder)
+
         try:
-            # Save the workbook to the file
-            wb.save(full_file_path)
-            print(f"Spreadsheet saved as: {full_file_path}")
-            
-            # Read the spreadsheet file as binary and encode it in base64
-            with open(full_file_path, 'rb') as file:
-                file_data = base64.b64encode(file.read()).decode('utf-8')
-
-            # Define the data for creation in Odoo, including the binary file data
-            spreadsheet_data = {
-                'name': spreadsheet_file_name,
-                'type': 'binary',
-                'datas': file_data,
-                'mimetype': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                'folder_id': 11  # Folder ID for the "Spreadsheet" folder
-            }
-
-            # Create the document in Odoo (upload the file)
-            spreadsheet_id = fetch_data(models, 'documents.document', 'create', values=[spreadsheet_data])
-
-            if not spreadsheet_id:
-                print("Error: Failed to create spreadsheet.")
-                return
-            
-            print(f"Spreadsheet created with ID: {spreadsheet_id}")
-
-            # Delete vendor price list entries in batches
-            batch_size = 20000  # Adjust batch size as needed
             for i in range(0, len(all_vendor_pricelist_ids), batch_size):
                 batch_ids = all_vendor_pricelist_ids[i:i + batch_size]
-                print(f"Processing batch {i // batch_size + 1}: {batch_ids}")
                 flattened_batch_ids = [record['id'] for record in batch_ids if 'id' in record]
-                print(f"Flattened batch_ids: {flattened_batch_ids}")
+                print(f"Flattened batch_ids: {len(flattened_batch_ids)}")
+
+                # Delete batch from the database
+                fetch_data(models, 'product.supplierinfo', 'unlink', ids=flattened_batch_ids)
+                print(f"Deleted batch {i // batch_size + 1}: {len(batch_ids)} records.")
+
+            print("All specified vendor price lists deleted successfully.")
+        
+        except Exception as e:
+            print(f"Error deleting records: {e}")
+    
+    except Exception as e:
+        print(f"Error: {e}")
+    
+# def DELETE_SPECIFIC_VENDOR_PRICELISTS(product_codes, batch_size=20000, file_folder=None, max_rows_per_file=200000):
+#     """
+#     Deletes specific vendor price list entries based on product codes in batches and writes them concurrently to Excel files.
+#     """
+#     try:
+#         current_date = datetime.now().strftime('%Y-%m-%d_%H%M%S')
+        
+#         # Parent folder: Spreadsheets
+#         parent_folder_path = "Spreadsheets"
+#         os.makedirs(parent_folder_path, exist_ok=True)  # Ensure the parent folder exists
+        
+#         # Subfolder for the current backup: NET_{current_date}
+#         backup_folder_path = os.path.join(parent_folder_path, f"NET_PRICEFILE_BACKUP_{current_date}")
+#         os.makedirs(backup_folder_path, exist_ok=True)  # Create the subfolder for the backup
+        
+#         print(f"Fetching specific vendor price list IDs...: {product_codes}")
+#         vendor_price_generator = fetch_data_generator(
+#             models, 'product.supplierinfo', 'search_read',
+#             domain=[('product_code', 'in', product_codes)],
+#             fields=['id'], batch_size=batch_size
+#         )
+
+#         print(f"IDS: {vendor_price_generator}")
+    
+#         headers = ['Vendor Name', 'Product Code', 'Product Template', 'Minimum Quantity', 'Price', 'Currency']
+#         file_count = 1
+#         tasks = []
+#         all_vendor_pricelist_ids = []
+
+#         with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+#             print("Preparing to write Excel files...")
+#             rows = []
+#             for batch in vendor_price_generator:
+#                 if not batch:
+#                     print("Warning: Empty batch received. Skipping...")
+#                     continue  # Skip processing if batch is empty
+                
+#                 batch_ids = [record.get('id') for record in batch if record.get('id') is not None]
+                
+#                 if not batch_ids:
+#                     print("Warning: No valid IDs found in batch. Skipping...")
+#                     continue  # Skip processing if all IDs are None
+                
+#                 print(f"Processing batch with {len(batch_ids)} valid records...")
+
+#                 vendor_price_lists = fetch_data(
+#                     models, 'product.supplierinfo', 'search_read',
+#                     domain=[['id', 'in', batch_ids]],
+#                     fields=['partner_id', 'product_code', 'product_tmpl_id', 'min_qty', 'price', 'currency_id']
+#                 )
+                
+#                 for record in vendor_price_lists:
+#                     partner_name = record.get('partner_id', ['N/A'])[1] if isinstance(record.get('partner_id'), list) and record.get('partner_id') else 'N/A'
+#                     product_code = record.get('product_code', 'N/A') or 'N/A'
+#                     product_name = record.get('product_tmpl_id', ['N/A'])[1] if isinstance(record.get('product_tmpl_id'), list) and record.get('product_tmpl_id') else 'N/A'
+#                     min_qty = record.get('min_qty', 0.0) or 0.0
+#                     price = record.get('price', 0.0) or 0.0
+#                     currency = record.get('currency_id', ['N/A'])[1] if isinstance(record.get('currency_id'), list) and record.get('currency_id') else 'N/A'
+#                     rows.append([partner_name, product_code, product_name, min_qty, price, currency])
+
+#                     print(f"Processed: {partner_name}, {product_code}, {product_name}, {min_qty}, {price}, {currency}")
+#                     all_vendor_pricelist_ids.append({'id': record.get('id')}) if record.get('id') else False
+                    
+#                     if len(rows) >= max_rows_per_file:
+#                         file_name = f"Vendor_Pricelist_NET_FILE_BACKUP_{current_date}_Part{file_count}.xlsx"
+#                         file_path = os.path.join(backup_folder_path, file_name)
+#                         task = executor.submit(write_excel_file, file_path, rows, headers)
+#                         tasks.append((task, file_path, file_name))
+#                         rows = []
+#                         file_count += 1
+                
+#             if rows:
+#                 file_name = f"Vendor_Pricelist_NET_FILE_BACKUP_{current_date}_Part{file_count}.xlsx"
+#                 file_path = os.path.join(backup_folder_path, file_name)
+#                 task = executor.submit(write_excel_file, file_path, rows, headers)
+#                 tasks.append((task, file_path, file_name))
+                
+#             for task, file_path, file_name in tasks:
+#                 task.result()
+#                 upload_to_odoo(file_path, file_name, file_folder)
+
+#         try:
+#             for i in range(0, len(all_vendor_pricelist_ids), batch_size):
+#                 batch_ids = all_vendor_pricelist_ids[i:i + batch_size]
+#                 flattened_batch_ids = [record['id'] for record in batch_ids if 'id' in record]
+#                 print(f"Flattened batch_ids: {len(flattened_batch_ids)}")
+
+#                 # Delete batch from the database
+#                 fetch_data(models, 'product.supplierinfo', 'unlink', ids=flattened_batch_ids)
+#                 print(f"Deleted batch {i // batch_size + 1}: {len(batch_ids)} records.")
+
+#             print("All specified vendor price lists deleted successfully.")
+        
+#         except Exception as e:
+#             print(f"Error deleting records: {e}")
+    
+#     except Exception as e:
+#         print(f"Error: {e}")
+
+
+def fetch_data_generator(models, model, method, domain, fields, batch_size=10000):
+    """ Generator function to fetch data in chunks, ensuring no None values are yielded. """
+    offset = 0
+    while True:
+        batch = fetch_data(models, model, method, domain=domain, fields=fields, limit=batch_size, offset=offset) or []
+        
+        print(f"Debug: Fetched batch at offset {offset}: {batch}")  # Debugging statement
+
+        if not batch:  # If batch is empty, stop iteration
+            break
+        
+        yield batch
+        offset += batch_size
+
+def fetch_or_create_folder(folder_name):
+    """ Fetches an existing folder by name or creates it if it doesn't exist. """
+    # Search for the folder by name
+    folder = fetch_data(models, "documents.document", "search", domain=[('name', '=', folder_name)], limit=1)
+    
+    if folder:
+        return folder[0]  # Return the existing folder ID
+    else:
+        # Create the folder if it doesn't exist
+        folder_data = {
+            "name": folder_name,
+            "parent_id": False  # Top-level folder
+        }
+        new_folder = fetch_data(models, "documents.folder", "create", values=[folder_data])
+        return new_folder[0] if isinstance(new_folder, list) else new_folder
+
+def write_excel_file(file_path, data, headers):
+    """ Writes data to an Excel file using xlsxwriter. """
+    workbook = xlsxwriter.Workbook(file_path)
+    worksheet = workbook.add_worksheet()
+    
+    for col_num, header in enumerate(headers):
+        worksheet.write(0, col_num, header)
+    
+    for row_num, record in enumerate(data, start=1):
+        for col_num, value in enumerate(record):
+            worksheet.write(row_num, col_num, value)
+    
+    workbook.close()
+
+def upload_to_odoo(file_path, file_name, folder_name):
+    """ Uploads the file to Odoo and links it to Documents. """
+
+    folder_id = fetch_or_create_folder(folder_name)
+
+    with open(file_path, "rb") as file:
+        file_base64 = base64.b64encode(file.read()).decode()
+    
+    spreadsheet_data = {
+        "name": file_name,
+        "type": "binary",
+        "datas": file_base64,
+        "mimetype": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    }
+    
+    attachment_response = fetch_data(models, "ir.attachment", "create", values=[spreadsheet_data])
+    attachment_id = attachment_response[0] if isinstance(attachment_response, list) else attachment_response
+    
+    # Link the attachment to the document (optional)
+    link_data = {"name": file_name, "attachment_id": attachment_id,"folder_id": folder_id}
+    fetch_data(models, "documents.document", "create", values=[link_data])
+
+
+def DELETE_ALL_VENDOR_PRICELISTS(batch_size=20000, file_folder=None, max_rows_per_file=200000):
+    """ Deletes all vendor price list entries in batches and writes them concurrently to Excel files. """
+    try:
+        current_date = datetime.now().strftime('%Y-%m-%d_%H%M%S')
+      
+        # Parent folder: Spreadsheets
+        parent_folder_path = "/var/www/abomar-pmm-api/abomar-pmm/main/odoo/Spreadsheets"
+        os.makedirs(parent_folder_path, exist_ok=True)  # Ensure the parent folder exists
+        
+        # Subfolder for the current backup: FULL_{current_date}
+        backup_folder_path = os.path.join(parent_folder_path, f"FULL_PRICEFILE_BACKUP_{current_date}")
+        os.makedirs(backup_folder_path, exist_ok=True)  # Create the subfolder for the backup
+        
+        print("Fetching all vendor price list IDs...")
+        vendor_price_generator = fetch_data_generator(models, 'product.supplierinfo', 'search_read', domain=[], fields=['id'], batch_size=batch_size)
+    
+        headers = ['Vendor Name', 'Product Code', 'Product Template', 'Minimum Quantity', 'Price', 'Currency']
+        file_count = 1
+        tasks = []
+        all_vendor_pricelist_ids = []
+
+        with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+            print("Preparing to write Excel files...")
+            rows = []
+            for batch in vendor_price_generator:
+                vendor_price_lists = fetch_data(
+                    models, 'product.supplierinfo', 'search_read',
+                    domain=[['id', 'in', [record['id'] for record in batch]]],
+                    fields=['partner_id', 'product_code', 'product_tmpl_id', 'min_qty', 'price', 'currency_id']
+                )
+                
+                for record in vendor_price_lists:
+                    partner_name = record.get('partner_id', ['N/A'])[1] if isinstance(record.get('partner_id'), list) else 'N/A'
+                    product_code = record.get('product_code', 'N/A')
+                    product_name = record.get('product_tmpl_id', ['N/A'])[1] if isinstance(record.get('product_tmpl_id'), list) else 'N/A'
+                    min_qty = record.get('min_qty', 0.0)
+                    price = record.get('price', 0.0)
+                    currency = record.get('currency_id', ['N/A'])[1] if isinstance(record.get('currency_id'), list) else 'N/A'
+                    rows.append([partner_name, product_code, product_name, min_qty, price, currency])
+                    all_vendor_pricelist_ids.append({'id': record.get('id')})
+                    
+                    if len(rows) >= max_rows_per_file:
+                        file_name = f"Vendor_Pricelist_FULL_FILE_BACKUP_{current_date}_Part{file_count}.xlsx"
+                        file_path = os.path.join(backup_folder_path, file_name)
+                        task = executor.submit(write_excel_file, file_path, rows, headers)
+                        tasks.append((task, file_path, file_name))
+                        rows = []
+                        file_count += 1
+                
+            if rows:
+                file_name = f"Vendor_Pricelist_FULL_FILE_BACKUP_{current_date}_Part{file_count}.xlsx"
+                file_path = os.path.join(backup_folder_path, file_name)
+                task = executor.submit(write_excel_file, file_path, rows, headers)
+                tasks.append((task, file_path, file_name))
+                
+            for task, file_path, file_name in tasks:
+                task.result()
+                upload_to_odoo(file_path, file_name, file_folder)
+
+        try:
+            for i in range(0, len(all_vendor_pricelist_ids), batch_size):
+                batch_ids = all_vendor_pricelist_ids[i:i + batch_size]
+                flattened_batch_ids = [record['id'] for record in batch_ids if 'id' in record]
+                print(f"Flattened batch_ids: {len(flattened_batch_ids)}")
 
                 # Delete batch from the database
                 fetch_data(models, 'product.supplierinfo', 'unlink', ids=flattened_batch_ids)
                 print(f"Deleted batch {i // batch_size + 1}: {len(batch_ids)} records.")
 
             print("All vendor price lists deleted successfully.")
-
+        
         except Exception as e:
-            print(f"Error saving or processing spreadsheet: {e}")
+            print(f"Error deleting records: {e}")
     
     except Exception as e:
-        print(f"Error during batch deletion of vendor price lists: {e}")
+        print(f"Error: {e}")
+# def DELETE_ALL_VENDOR_PRICELISTS(batch_size=20000, max_rows=1000000):
+#     """
+#     Deletes all vendor price list entries in batches of a given size.
+#     Exports the data to a spreadsheet and uploads it to Odoo Documents before deletion.
+#     """
+#     try:
+#         current_date = datetime.now().strftime('%Y-%m-%d_%H%M%S')
+#         spreadsheet_file_name = f"Vendor_Pricelist_FULL_BACKUP_{current_date}.csv"
+#         folder_path = "Spreadsheet"
+#         file_path = os.path.join(folder_path, spreadsheet_file_name)
+
+#         if not os.path.exists(folder_path):
+#             os.makedirs(folder_path)
+
+#         print("Fetching all vendor price list IDs...")
+#         all_vendor_pricelist_ids = fetch_data(
+#             models,
+#             'product.supplierinfo',
+#             'search_read',
+#             domain=[],
+#             fields=['id']
+#         )
+
+#         total_records = len(all_vendor_pricelist_ids)
+#         print(f"Total vendor price lists to delete: {total_records}")
+
+#         if total_records == 0:
+#             print("No records found to delete.")
+#             return
+
+#         # Prepare spreadsheet data
+#         rows = [['Vendor Name', 'Product Code', 'Product Template', 'Minimum Quantity', 'Price', 'Currency']]
+
+#         vendor_price_lists = fetch_data(
+#             models,
+#             'product.supplierinfo',
+#             'search_read',
+#             domain=[['id', 'in', [record['id'] for record in all_vendor_pricelist_ids]]],
+#             fields=['partner_id', 'product_code', 'product_tmpl_id', 'min_qty', 'price', 'currency_id']
+#         )
+       
+#         for record in vendor_price_lists:
+#             if len(rows) >= max_rows:
+#                 print(f"Reached the maximum row limit of {max_rows}. Stopping data collection.")
+#                 break
+
+#             partner_name = record.get('partner_id', ['N/A'])[1] if isinstance(record.get('partner_id'), list) else 'N/A'
+#             product_code = record.get('product_code', 'N/A')
+#             product_name = record.get('product_tmpl_id', ['N/A'])[1] if isinstance(record.get('product_tmpl_id'), list) else 'N/A'
+#             min_qty = record.get('min_qty', 0.0)
+#             price = record.get('price', 0.0)
+#             currency = record.get('currency_id', ['N/A'])[1] if isinstance(record.get('currency_id'), list) else 'N/A'
+
+#             rows.append([partner_name, product_code, product_name, min_qty, price, currency])
+
+#         print(f"vendor_price_lists : {rows}")
+
+#         # Save CSV file to disk
+#         with open(file_path, mode="w", newline="", encoding="utf-8") as file:
+#             writer = csv.writer(file)
+#             for row_data in rows:
+#                 print(f"Writing row: {row_data}")  # Debugging statement
+#                 writer.writerow(row_data)
+
+#         # Convert file to base64 for Odoo upload
+#         with open(file_path, "rb") as file:
+#             file_base64 = base64.b64encode(file.read()).decode()
+
+#         # Prepare data for Odoo attachment
+#         spreadsheet_data = {
+#             "name": spreadsheet_file_name,
+#             "type": "binary",
+#             "datas": file_base64,
+#             "mimetype": "text/csv"
+#         }
+
+#         # Create the attachment in Odoo
+#         attachment_response = fetch_data(models, "ir.attachment", "create", values=[spreadsheet_data])
+#         attachment_id = attachment_response[0] if isinstance(attachment_response, list) else attachment_response
+
+#         # Link the attachment to Odoo Documents
+#         link_data = {
+#             "name": spreadsheet_file_name,
+#             "attachment_id": attachment_id
+#         }
+
+#         fetch_data(models, "documents.document", "create", values=[link_data])
+
+    #     # Proceed with batch deletion
+    #     try:
+    #         batch_size = 20000  # Adjust batch size as needed
+    #         for i in range(0, len(all_vendor_pricelist_ids), batch_size):
+    #             batch_ids = all_vendor_pricelist_ids[i:i + batch_size]
+    #             flattened_batch_ids = [record['id'] for record in batch_ids if 'id' in record]
+    #             print(f"Flattened batch_ids: {len(flattened_batch_ids)}")
+
+    #             # Delete batch from the database
+    #             fetch_data(models, 'product.supplierinfo', 'unlink', ids=flattened_batch_ids)
+    #             print(f"Deleted batch {i // batch_size + 1}: {len(batch_ids)} records.")
+
+    #         print("All vendor price lists deleted successfully.")
+
+    #     except Exception as e:
+    #         print(f"Error deleting records: {e}")
+
+    # except Exception as e:
+    #     print(f"Error during batch deletion of vendor price lists: {e}")
+
 
 def parse_dat_line(line):
     product_id = line[0:18].strip()  
@@ -832,7 +1177,7 @@ def UPDATE_VENDOR_PRICELIST(output_json_path):
 
 def get_model_fields():
     #change for specific model
-    model_name = 'product.template'
+    model_name = 'product.product'
 
     fields = models.execute_kw(
         db, uid, password,

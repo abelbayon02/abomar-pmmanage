@@ -1,22 +1,41 @@
 from functions import PROCESS_DAT_PRICE_FILE, get_model_fields, GET_PARTNERS, GET_PRICELISTS, GET_CATEGORY,GET_PRODUCT_TMPL_ID
+import json
+import logging
 
 #get_model_fields, PROCESS_DAT_PRICE_FILE, UPDATE_VENDOR_PRICELIST, GET_PRODUCT_TMPL_ID, GET_CURRENCY, GET_PRODUCT
 import os
 def folder_has_files(folder_path):
     return any(os.path.isfile(os.path.join(folder_path, file)) for file in os.listdir(folder_path))
 
-FULL_DECOMPRESSED_FILES = "../../Files/Decompressed_Files/FULL"
-NET_DECOMPRESSED_FILES = "../../Files/Decompressed_Files/NET"
+FULL_DECOMPRESSED_FILES = "/var/www/abomar-pmm-api/abomar-pmm/Files/Decompressed_Files/FULL"
+NET_DECOMPRESSED_FILES = "/var/www/abomar-pmm-api/abomar-pmm/Files/Decompressed_Files/NET"
+
+log_filename = "/var/www/abomar-pmm-api/abomar-pmm/main/odoo/PRICEFILE.log"  # Constant log file name
+logging.basicConfig(
+    filename=log_filename,
+    filemode="a",  # Append mode: new log entries are added to the existing file
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logging.info("Script execution started.")
 
 if folder_has_files(FULL_DECOMPRESSED_FILES):
     print("FULL PRICEFILE FOUND, Processing....")
-    PROCESS_FULL = PROCESS_DAT_PRICE_FILE(FULL_DECOMPRESSED_FILES, 'FULL')
+    PROCESS_FULL = PROCESS_DAT_PRICE_FILE(FULL_DECOMPRESSED_FILES, 'FULL_FILE_BACKUP', 'FULL')
+    logging.info(f"{PROCESS_FULL}")
+    logging.info("Script execution ended successfully.")
 else:
     print("No files found in FULL_DECOMPRESSED_FILES.")
+    logging.info(f"No files found in FULL DECOMPRESSED FILES.")
+    logging.info("Script execution ended successfully.")
 
 if folder_has_files(NET_DECOMPRESSED_FILES):
-    PROCESS_NET = PROCESS_DAT_PRICE_FILE(NET_DECOMPRESSED_FILES, 'NET')
+    PROCESS_NET = PROCESS_DAT_PRICE_FILE(NET_DECOMPRESSED_FILES, 'NET_FILE_BACKUP', 'NET')
+    logging.info(f"{PROCESS_NET}")
+    logging.info("Script execution ended successfully.")
 else:
+    logging.info(f"No files found in NET DECOMPRESSED FILES.")
+    logging.info("Script execution ended successfully.")
     print("No files found in NET_DECOMPRESSED_FILES.")
 
 # def START_DATE_CHECKER(directory, type, batch_size=20000, retry=5):

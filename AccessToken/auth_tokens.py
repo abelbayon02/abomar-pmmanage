@@ -1,9 +1,9 @@
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 import requests
 import os
 from requests.auth import HTTPBasicAuth
 
-load_dotenv()
+#load_dotenv()
 
 # OAuth 2.0 credentials
 # client_id = '0oaythv1mgKlsvK981t7'

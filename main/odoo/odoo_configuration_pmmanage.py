@@ -1,17 +1,17 @@
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 import xmlrpc.client
 import re
 import os
-
+from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
 # Define the server details
-url = os.getenv('ODOO_URL')
-db = os.getenv('ODOO_DB')
-username = os.getenv('ODOO_USERNAME')
-password = os.getenv('ODOO_PASSWORD')
-access_token = os.getenv('ACCESS_TOKEN')
+url = os.getenv("PROD_ODOO_URL")
+db = os.getenv("PROD_ODOO_DB")
+username = os.getenv("PROD_ODOO_USERNAME")
+password = os.getenv("PROD_ODOO_PASSWORD")
+access_token = os.getenv("PROD_ACCESS_TOKEN")
 
 def get_server_proxy(url, endpoint):
     url = url.rstrip('/')

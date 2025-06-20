@@ -1,4 +1,4 @@
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 from datetime import datetime
 import sys
 import os
@@ -9,10 +9,10 @@ import gzip
 import shutil
 import io
 
-load_dotenv()
-api_key = os.getenv('CLIENT_ID')
+#load_dotenv()
+#api_key = os.getenv('CLIENT_ID')
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'AccessToken'))
+sys.path.append('/var/www/abomar-pmm-api/abomar-pmm/AccessToken')
 
 from auth_tokens import get_upload_token
 from auth_tokens import get_download_token
@@ -87,7 +87,7 @@ def download_and_extract_files(download_token, files, download_dir):
 if __name__ == '__main__':
     download_api_url = 'https://dtfapi.deere.com/dbs/dealer/7A1758/files/'
     bearer_token = download_token
-    base_dir = '../Files'
+    base_dir = '/var/www/abomar-pmm-api/abomar-pmm/Files'
 
     result = get_downloadable_price_file(download_api_url, download_token)
 

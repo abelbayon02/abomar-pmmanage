@@ -1,0 +1,289 @@
+Starting script execution at Fri Dec 20 08:46:31 AM PST 2024
+Traceback (most recent call last):
+  File "/var/www/abomar-pmm-api/abomar-pmm/main/pmm/main.py", line 12, in <module>
+    import openpyxl
+ModuleNotFoundError: No module named 'openpyxl'
+Finished script execution at Fri Dec 20 08:46:31 AM PST 2024
+Starting script execution at Fri Dec 20 08:51:33 AM PST 2024
+Traceback (most recent call last):
+  File "/var/www/abomar-pmm-api/abomar-pmm/main/pmm/main.py", line 12, in <module>
+    import openpyxl
+ModuleNotFoundError: No module named 'openpyxl'
+Finished script execution at Fri Dec 20 08:51:33 AM PST 2024
+Starting script execution at Fri Mar  7 10:35:53 PM PST 2025
+Traceback (most recent call last):
+  File "/var/www/abomar-pmm-api/abomar-pmm/main/pmm/main.py", line 68, in <module>
+    logging.basicConfig(
+  File "/usr/lib/python3.12/logging/__init__.py", line 2118, in basicConfig
+    h = FileHandler(filename, mode,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/logging/__init__.py", line 1231, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.12/logging/__init__.py", line 1263, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: '/usr/local/bin/PMM.log'
+Finished script execution at Fri Mar  7 10:35:54 PM PST 2025
+Starting script execution at Fri Mar  7 10:37:43 PM PST 2025
+Aggregate Report per Location:
+
+CEB
+PAS
+DAV
+BAC
+CAG
+File successfully saved at: /var/www/abomar-pmm-api/abomar-pmm/Files/PMM/DLR2JD_07MAR2025_223921.DAT
+Email sent successfully!
+Finished script execution at Fri Mar  7 10:39:27 PM PST 2025
+Starting script execution at Sat Mar  8 07:25:01 AM PST 2025
+Aggregate Report per Location:
+
+CEB
+PAS
+DAV
+BAC
+CAG
+File successfully saved at: /var/www/abomar-pmm-api/abomar-pmm/Files/PMM/DLR2JD_08MAR2025_072640.DAT
+Email sent successfully!
+Finished script execution at Sat Mar  8 07:26:47 AM PST 2025
+Starting script execution at Sat Mar  8 12:57:33 PM PST 2025
+Aggregate Report per Location:
+
+CEB
+PAS
+DAV
+BAC
+CAG
+File successfully saved at: /var/www/abomar-pmm-api/abomar-pmm/Files/PMM/DLR2JD_08MAR2025_125922.DAT
+Email sent successfully!
+Finished script execution at Sat Mar  8 12:59:29 PM PST 2025
+Starting script execution at Sun Mar  9 02:00:01 AM PST 2025
+Aggregate Report per Location:
+
+CEB
+PAS
+DAV
+BAC
+CAG
+File successfully saved at: /var/www/abomar-pmm-api/abomar-pmm/Files/PMM/DLR2JD_09MAR2025_020144.DAT
+Email sent successfully!
+Finished script execution at Sun Mar  9 02:01:51 AM PST 2025
+Starting script execution at Sun Mar 16 02:00:01 AM PST 2025
+Aggregate Report per Location:
+
+CEB
+PAS
+DAV
+BAC
+CAG
+File successfully saved at: /var/www/abomar-pmm-api/abomar-pmm/Files/PMM/DLR2JD_16MAR2025_020144.DAT
+Email sent successfully!
+Finished script execution at Sun Mar 16 02:01:50 AM PST 2025
+Starting script execution at Mon Mar 17 10:09:24 PM PST 2025
+CEB
+PAS
+DAV
+BAC
+CAG
+File successfully saved at: /var/www/abomar-pmm-api/abomar-pmm/Files/PMM/DLR2JD_17MAR2025_221105.DAT
+Email sent successfully!
+Finished script execution at Mon Mar 17 10:11:12 PM PST 2025
+Starting script execution at Thu Mar 20 09:44:39 PM PST 2025
+CEB
+PAS
+DAV
+BAC
+CAG
+File successfully saved at: /var/www/abomar-pmm-api/abomar-pmm/Files/PMM/DLR2JD_20MAR2025_214627.DAT
+Email sent successfully!
+Finished script execution at Thu Mar 20 09:46:34 PM PST 2025
+Starting script execution at Fri Mar 21 08:19:18 PM PST 2025
+CEB
+Traceback (most recent call last):
+  File "/var/www/abomar-pmm-api/abomar-pmm/main/pmm/main.py", line 1036, in <module>
+    main()
+  File "/var/www/abomar-pmm-api/abomar-pmm/main/pmm/main.py", line 591, in main
+    {"metric": "total_parts_cost_of_sales_last_12_months", "value": get_parts_cost_of_sales_for_location(group, last12_start, last12_end)},
+                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: get_parts_cost_of_sales_for_location() missing 1 required positional argument: 'ref_date_str'
+Finished script execution at Fri Mar 21 08:19:35 PM PST 2025
+Starting script execution at Fri Mar 21 08:23:13 PM PST 2025
+CEB
+PAS
+DAV
+BAC
+CAG
+File successfully saved at: /var/www/abomar-pmm-api/abomar-pmm/Files/PMM/DLR2JD_21MAR2025_202512.DAT
+Email sent successfully!
+Finished script execution at Fri Mar 21 08:25:23 PM PST 2025
+Starting script execution at Fri Mar 21 08:33:49 PM PST 2025
+CEB
+PAS
+DAV
+BAC
+CAG
+File successfully saved at: /var/www/abomar-pmm-api/abomar-pmm/Files/PMM/DLR2JD_21MAR2025_203652.DAT
+Email sent successfully!
+Finished script execution at Fri Mar 21 08:37:04 PM PST 2025
+Starting script execution at Sun Mar 23 02:00:01 AM PST 2025
+CEB
+PAS
+DAV
+BAC
+CAG
+File successfully saved at: /var/www/abomar-pmm-api/abomar-pmm/Files/PMM/DLR2JD_23MAR2025_020152.DAT
+Email sent successfully!
+Finished script execution at Sun Mar 23 02:02:00 AM PST 2025
+Starting script execution at Sun Mar 30 02:00:01 AM PST 2025
+CEB
+PAS
+DAV
+BAC
+CAG
+File successfully saved at: /var/www/abomar-pmm-api/abomar-pmm/Files/PMM/DLR2JD_30MAR2025_020155.DAT
+Email sent successfully!
+Finished script execution at Sun Mar 30 02:02:10 AM PST 2025
+Starting script execution at Sat Apr  5 10:46:38 PM PST 2025
+CEB
+PAS
+DAV
+BAC
+CAG
+File successfully saved at: /var/www/abomar-pmm-api/abomar-pmm/Files/PMM/DLR2JD_05APR2025_224900.DAT
+Email sent successfully!
+Finished script execution at Sat Apr  5 10:49:13 PM PST 2025
+Starting script execution at Sun Apr  6 02:00:01 AM PST 2025
+CEB
+PAS
+DAV
+BAC
+CAG
+File successfully saved at: /var/www/abomar-pmm-api/abomar-pmm/Files/PMM/DLR2JD_06APR2025_020220.DAT
+Email sent successfully!
+Finished script execution at Sun Apr  6 02:02:31 AM PST 2025
+Starting script execution at Sun Apr 13 02:00:01 AM PST 2025
+CEB
+PAS
+DAV
+BAC
+CAG
+File successfully saved at: /var/www/abomar-pmm-api/abomar-pmm/Files/PMM/DLR2JD_13APR2025_020227.DAT
+Email sent successfully!
+Finished script execution at Sun Apr 13 02:02:39 AM PST 2025
+Starting script execution at Wed Apr 16 04:25:11 PM PST 2025
+CEB
+PAS
+DAV
+BAC
+CAG
+File successfully saved at: /var/www/abomar-pmm-api/abomar-pmm/Files/PMM/DLR2JD_16APR2025_162916.DAT
+Email sent successfully!
+Finished script execution at Wed Apr 16 04:29:22 PM PST 2025
+Starting script execution at Sun Apr 20 02:00:01 AM PST 2025
+CEB
+PAS
+DAV
+BAC
+CAG
+File successfully saved at: /var/www/abomar-pmm-api/abomar-pmm/Files/PMM/DLR2JD_20APR2025_020359.DAT
+Email sent successfully!
+Finished script execution at Sun Apr 20 02:04:06 AM PST 2025
+Starting script execution at Sun Apr 27 02:00:01 AM PST 2025
+CEB
+PAS
+DAV
+BAC
+CAG
+File successfully saved at: /var/www/abomar-pmm-api/abomar-pmm/Files/PMM/DLR2JD_27APR2025_020511.DAT
+Email sent successfully!
+Finished script execution at Sun Apr 27 02:05:17 AM PST 2025
+Starting script execution at Wed Apr 30 08:44:40 PM PST 2025
+CEB
+PAS
+DAV
+BAC
+CAG
+File successfully saved at: /var/www/abomar-pmm-api/abomar-pmm/Files/PMM/DLR2JD_30APR2025_205319.DAT
+Email sent successfully!
+Finished script execution at Wed Apr 30 08:53:28 PM PST 2025
+Starting script execution at Sun May  4 02:00:01 AM PST 2025
+CEB
+PAS
+DAV
+BAC
+CAG
+File successfully saved at: /var/www/abomar-pmm-api/abomar-pmm/Files/PMM/DLR2JD_04MAY2025_020350.DAT
+Email sent successfully!
+Finished script execution at Sun May  4 02:03:59 AM PST 2025
+Starting script execution at Sun May 11 02:00:01 AM PST 2025
+CEB
+PAS
+DAV
+BAC
+CAG
+File successfully saved at: /var/www/abomar-pmm-api/abomar-pmm/Files/PMM/DLR2JD_11MAY2025_020356.DAT
+Email sent successfully!
+Finished script execution at Sun May 11 02:04:08 AM PST 2025
+Starting script execution at Sun May 18 02:00:01 AM PST 2025
+CEB
+PAS
+DAV
+BAC
+CAG
+File successfully saved at: /var/www/abomar-pmm-api/abomar-pmm/Files/PMM/DLR2JD_18MAY2025_020423.DAT
+Email sent successfully!
+Finished script execution at Sun May 18 02:04:33 AM PST 2025
+Starting script execution at Sun May 25 02:00:01 AM PST 2025
+CEB
+PAS
+DAV
+BAC
+CAG
+File successfully saved at: /var/www/abomar-pmm-api/abomar-pmm/Files/PMM/DLR2JD_25MAY2025_020406.DAT
+Email sent successfully!
+Finished script execution at Sun May 25 02:04:17 AM PST 2025
+Starting script execution at Sat May 31 07:00:53 PM PST 2025
+CEB
+PAS
+DAV
+BAC
+CAG
+File successfully saved at: /var/www/abomar-pmm-api/abomar-pmm/Files/PMM/DLR2JD_31MAY2025_190459.DAT
+Finished script execution at Sat May 31 07:04:59 PM PST 2025
+Starting script execution at Sun Jun  1 12:30:01 AM PST 2025
+CEB
+PAS
+DAV
+BAC
+CAG
+File successfully saved at: /var/www/abomar-pmm-api/abomar-pmm/Files/PMM/DLR2JD_01JUN2025_003401.DAT
+Email sent successfully!
+Finished script execution at Sun Jun  1 12:34:08 AM PST 2025
+Starting script execution at Sun Jun  1 02:00:01 AM PST 2025
+CEB
+PAS
+DAV
+BAC
+CAG
+File successfully saved at: /var/www/abomar-pmm-api/abomar-pmm/Files/PMM/DLR2JD_01JUN2025_020401.DAT
+Email sent successfully!
+Finished script execution at Sun Jun  1 02:04:09 AM PST 2025
+Starting script execution at Sun Jun  8 02:00:01 AM PST 2025
+CEB
+PAS
+DAV
+BAC
+CAG
+File successfully saved at: /var/www/abomar-pmm-api/abomar-pmm/Files/PMM/DLR2JD_08JUN2025_020411.DAT
+Email sent successfully!
+Finished script execution at Sun Jun  8 02:04:23 AM PST 2025
+Starting script execution at Sun Jun 15 02:00:01 AM PST 2025
+CEB
+PAS
+DAV
+BAC
+CAG
+File successfully saved at: /var/www/abomar-pmm-api/abomar-pmm/Files/PMM/DLR2JD_15JUN2025_020402.DAT
+Email sent successfully!
+Finished script execution at Sun Jun 15 02:04:09 AM PST 2025
